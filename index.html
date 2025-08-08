@@ -2,34 +2,29 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>災情即時地圖總覽</title>
+    <title>新北市災情新聞地圖</title>
     <style>
-        body { font-family: sans-serif; margin: 0; padding: 0; background: #f0f0f0; }
-        .container { max-width: 1200px; margin: auto; padding: 20px; }
-        .entry { background: #fff; border-radius: 6px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; gap: 15px; }
-        .entry img { width: 160px; height: auto; border-radius: 4px; object-fit: cover; }
-        .entry .info { flex: 1; }
-        .entry h2 { margin: 0 0 10px; font-size: 18px; }
-        .entry p { margin: 0 0 5px; color: #555; }
-        .entry a.map-link { display: inline-block; margin-top: 8px; color: #007BFF; text-decoration: none; }
-        .entry a.map-link:hover { text-decoration: underline; }
-        h1 { text-align: center; margin-bottom: 40px; }
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
+        h1 { color: #333; }
+        .news-card { background: #fff; border: 1px solid #ccc; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+        .news-card img { max-height: 150px; max-width: 200px; float: right; margin-left: 15px; }
+        .summary { margin: 5px 0; }
+        .timestamp { font-size: 0.9em; color: #666; }
+        .btn-map { display: inline-block; margin-top: 8px; padding: 6px 10px; background: #007bff; color: #fff; text-decoration: none; border-radius: 4px; }
+        .btn-map:hover { background: #0056b3; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📍 災情新聞地圖總覽</h1>
+<h1>🗺️ 新北市災情新聞地圖</h1>
+<p>🕒 最後更新時間：2025-08-08 14:47:06</p>
 
-        <div class="entry">
-            <img src="" alt="news">
-            <div class="info">
-                <h2>即／擋不住豪雨！　金山、三芝也宣布停班停課！</h2>
-                <p>即／擋不住豪雨！　金山、三芝也宣布停班停課！|ETtoday政治新聞|ETtoday新聞雲回首頁facebookLINETwitterwechat微信複製連結　|手機版|App|歷史活動|歷史專題|會員中心|家外媒體|數位廣告刊登|攝影棚租借　FBYouTubeIGRSSweiboGoogleNew...</p>
-                <p><small>🕒 </small></p>
-                <a class="map-link" href="#" target="_blank">🌐 查看對應地圖</a>
-            </div>
+        <div class="news-card">
+            <img src="" alt="新聞縮圖">
+            <h3><a href="#" target="_blank">即／擋不住豪雨！　金山、三芝也宣布停班停課！</a></h3>
+            <div class="summary">📰 即／擋不住豪雨！　金山、三芝也宣布停班停課！|ETtoday政治新聞|ETtoday新聞雲回首頁facebookLINETwitterwechat微信複製連結　|手機版|App|歷史活動|歷史專題|會員中心|家外媒體|數位廣告刊登|攝影棚租借　FBYouTubeIGRSSweiboGoogleNew...</div>
+            <div class="timestamp">📅 爬搜時間：</div>
+            <a class="btn-map" href="news_maps/None" target="_blank">🌐 查看地圖</a>
         </div>
-    
-    </div>
+        
 </body>
 </html>

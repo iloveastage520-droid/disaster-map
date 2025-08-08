@@ -2,77 +2,65 @@ import os
 import json
 from datetime import datetime
 
-# 資料夾設定
-base_folder = os.path.dirname(os.path.abspath(__file__))
-metadata_folder = os.path.join(base_folder, "metadata")
-news_map_folder = "news_maps"
-index_file_path = os.path.join(base_folder, "index.html")
+# 設定路徑
+metadata_dir = "metadata"
+map_dir = "news_maps"
+output_file = "index.html"
 
-# 掃描 metadata 資料夾
-entries = []
-for filename in os.listdir(metadata_folder):
-    if filename.endswith(".json"):
-        with open(os.path.join(metadata_folder, filename), "r", encoding="utf-8") as f:
-            try:
-                data = json.load(f)
-                entries.append(data)
-            except Exception as e:
-                print(f"⚠️ 無法讀取 {filename}：{e}")
-
-# 依時間排序（新到舊）
-entries.sort(key=lambda x: x.get("timestamp", ""), reverse=True)
-
-# 產出 HTML 內容
-html = """<!DOCTYPE html>
+# 準備 HTML 開頭
+html_head = """<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>災情即時地圖總覽</title>
+    <title>新北市災情新聞地圖</title>
     <style>
-        body { font-family: sans-serif; margin: 0; padding: 0; background: #f0f0f0; }
-        .container { max-width: 1200px; margin: auto; padding: 20px; }
-        .entry { background: #fff; border-radius: 6px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; gap: 15px; }
-        .entry img { width: 160px; height: auto; border-radius: 4px; object-fit: cover; }
-        .entry .info { flex: 1; }
-        .entry h2 { margin: 0 0 10px; font-size: 18px; }
-        .entry p { margin: 0 0 5px; color: #555; }
-        .entry a.map-link { display: inline-block; margin-top: 8px; color: #007BFF; text-decoration: none; }
-        .entry a.map-link:hover { text-decoration: underline; }
-        h1 { text-align: center; margin-bottom: 40px; }
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
+        h1 { color: #333; }
+        .news-card { background: #fff; border: 1px solid #ccc; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+        .news-card img { max-height: 150px; max-width: 200px; float: right; margin-left: 15px; }
+        .summary { margin: 5px 0; }
+        .timestamp { font-size: 0.9em; color: #666; }
+        .btn-map { display: inline-block; margin-top: 8px; padding: 6px 10px; background: #007bff; color: #fff; text-decoration: none; border-radius: 4px; }
+        .btn-map:hover { background: #0056b3; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📍 災情新聞地圖總覽</h1>
+<h1>🗺️ 新北市災情新聞地圖</h1>
 """
 
-for entry in entries:
-    title = entry.get("title", "未命名新聞")
-    summary = entry.get("summary", "（無摘要）")
-    img_url = entry.get("img_url", "")
-    map_path = entry.get("map_path", "#")
-    timestamp = entry.get("timestamp", "")[:16].replace("T", " ")  # 簡化時間
+# 最後更新時間
+now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+html_head += f"<p>🕒 最後更新時間：{now}</p>\n"
 
-    html += f"""
-        <div class="entry">
-            <img src="{img_url}" alt="news">
-            <div class="info">
-                <h2>{title}</h2>
-                <p>{summary}</p>
-                <p><small>🕒 {timestamp}</small></p>
-                <a class="map-link" href="{map_path}" target="_blank">🌐 查看對應地圖</a>
-            </div>
+# 準備新聞列表內容
+news_cards = []
+
+for filename in sorted(os.listdir(metadata_dir), reverse=True):
+    if filename.endswith(".json"):
+        json_path = os.path.join(metadata_dir, filename)
+        with open(json_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        map_file_path = os.path.join(map_dir, data.get("map_file", ""))
+        if not os.path.exists(map_file_path):
+            continue  # 沒有對應地圖就跳過
+
+        news_card = f"""
+        <div class="news-card">
+            <img src="{data.get("image", "")}" alt="新聞縮圖">
+            <h3><a href="{data.get("url", "#")}" target="_blank">{data.get("title", "")}</a></h3>
+            <div class="summary">📰 {data.get("summary", "")}</div>
+            <div class="timestamp">📅 爬搜時間：{data.get("timestamp", "")}</div>
+            <a class="btn-map" href="{map_dir}/{data.get("map_file")}" target="_blank">🌐 查看地圖</a>
         </div>
-    """
+        """
+        news_cards.append(news_card)
 
-html += """
-    </div>
-</body>
-</html>
-"""
+# 組合全部 HTML
+html_content = html_head + "\n".join(news_cards) + "\n</body>\n</html>"
 
 # 寫入 index.html
-with open(index_file_path, "w", encoding="utf-8") as f:
-    f.write(html)
+with open(output_file, "w", encoding="utf-8") as f:
+    f.write(html_content)
 
-print(f"✅ 已產出首頁 index.html，共顯示 {len(entries)} 筆災情地圖。")
+print(f"✅ 已更新 {output_file}")
