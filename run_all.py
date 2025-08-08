@@ -1,23 +1,20 @@
 import subprocess
-import os
 
-base_folder = os.path.dirname(os.path.abspath(__file__))
+def step(title):
+    print(f"\n=== {title} ===")
 
-combo_script = os.path.join(base_folder, "news_to_cctv_combo.py")
-index_script = os.path.join(base_folder, "generate_index.py")
+# 步驟 1: 自動爬 ETtoday 新北市新聞
+step("步驟 1️⃣：開始爬 ETtoday 新聞")
+subprocess.run(["python", "news_to_cctv_combo.py"], check=True)
 
-# 步驟 1：執行爬新聞並產地圖
-print("🚀 執行新聞爬蟲與地圖產出...")
-subprocess.run(["python", combo_script])
+# 步驟 2: 產出首頁 index.html
+step("步驟 2️⃣：產出首頁 index.html")
+subprocess.run(["python", "generate_index.py"], check=True)
 
-# 步驟 2：產首頁 index.html
-print("🛠️ 產出首頁 index.html...")
-subprocess.run(["python", index_script])
+# 步驟 3: 自動 commit 並 push 到 GitHub（排除 news_maps/）
+step("步驟 3️⃣：推送更新到 GitHub")
+subprocess.run(["git", "add", "."], check=True)
+subprocess.run(["git", "commit", "-m", "🔄 自動更新 index 與 metadata"], check=False)
+subprocess.run(["git", "push", "-u", "origin", "gh-pages"], check=True)
 
-# 步驟 3：上傳到 GitHub
-print("⬆️ 推送更新到 GitHub...")
-subprocess.run(["git", "add", "."])
-subprocess.run(["git", "commit", "-m", "自動更新地圖與首頁"])
-subprocess.run(["git", "push", "origin", "gh-pages"])
-
-print("✅ 全部完成！請查看 GitHub 網頁發布頁面。")
+print("\n✅ 全部完成！請查看 GitHub 網頁發布頁面。")
