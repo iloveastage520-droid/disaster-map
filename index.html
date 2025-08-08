@@ -1,18 +1,35 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>📍 新北市災情地圖清單</title>
+    <title>災情即時地圖總覽</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 0; background: #f0f0f0; }
+        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        .entry { background: #fff; border-radius: 6px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; gap: 15px; }
+        .entry img { width: 160px; height: auto; border-radius: 4px; object-fit: cover; }
+        .entry .info { flex: 1; }
+        .entry h2 { margin: 0 0 10px; font-size: 18px; }
+        .entry p { margin: 0 0 5px; color: #555; }
+        .entry a.map-link { display: inline-block; margin-top: 8px; color: #007BFF; text-decoration: none; }
+        .entry a.map-link:hover { text-decoration: underline; }
+        h1 { text-align: center; margin-bottom: 40px; }
+    </style>
 </head>
 <body>
-    <h1>📍 新北市災情地圖列表</h1>
-    <ul>
-        <li><a href="cctv_map_sidebar_20250807_1530.html" target="_blank">cctv_map_sidebar_20250807_1530.html</a></li>
-        <li><a href="cctv_map_sidebar_20250807_1600.html" target="_blank">cctv_map_sidebar_20250807_1600.html</a></li>
-        <li><a href="cctv_map_sidebar_20250807_1635.html" target="_blank">cctv_map_sidebar_20250807_1635.html</a></li>
-        <!-- 如有更多地圖，請照這個格式加入 -->
-    </ul>
-    <hr>
-    <p style="font-size: small;">本頁面由 Python 自動產生，用於彙整災情地圖。</p>
+    <div class="container">
+        <h1>📍 災情新聞地圖總覽</h1>
+
+        <div class="entry">
+            <img src="" alt="news">
+            <div class="info">
+                <h2>即／擋不住豪雨！　金山、三芝也宣布停班停課！</h2>
+                <p>即／擋不住豪雨！　金山、三芝也宣布停班停課！|ETtoday政治新聞|ETtoday新聞雲回首頁facebookLINETwitterwechat微信複製連結　|手機版|App|歷史活動|歷史專題|會員中心|家外媒體|數位廣告刊登|攝影棚租借　FBYouTubeIGRSSweiboGoogleNew...</p>
+                <p><small>🕒 </small></p>
+                <a class="map-link" href="#" target="_blank">🌐 查看對應地圖</a>
+            </div>
+        </div>
+    
+    </div>
 </body>
 </html>
